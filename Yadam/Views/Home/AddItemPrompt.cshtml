@@ -1,0 +1,41 @@
+﻿<h1>Here</h1>
+
+<p>Enter new album details here.</p>
+
+<form asp-controller="Home" asp-action="Additem" method="post">
+
+    
+    <label>Title</label>
+    <input type="text" id="title" name = "title"/><br/>
+    
+    <label>Description</label>
+    <input type="text" id="description" name = "description"></input><br/>
+
+    <input type="hidden" id="albumId" name = "albumId" value=@ViewBag.AlbumId></input><br/>
+
+    AlbumId: @ViewBag.AlbumId;
+
+    <div class="form-group">
+        <label for="fileInput">Choose a file:</label>
+        <input type="file" id="fileInput" name="uploadedFile" class="form-control-file" onchange="displayFilePath()" />
+    </div>
+    <div class="form-group">
+        <label for="filePath">Selected File Path:</label>
+        <input type="text" id="filePath" name="filePath" class="form-control" readonly />
+    </div>
+   
+    <br/>
+    
+    <p><button type="submit" class="btn btn-primary">Add Item</button></p>
+
+</form>
+
+@section scripts {
+    <script>
+        function displayFilePath() {
+            const fileInput = document.getElementById('fileInput');
+            const filePath = document.getElementById('filePath');
+            filePath.value = fileInput.value;
+        }
+    </script>
+}

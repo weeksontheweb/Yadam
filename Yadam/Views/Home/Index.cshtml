@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Yadam.Models.AlbumModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+     .albums-display-container{
+         display:flex;
+         flex-wrap:wrap;
+         justify-content:center;
+         align-items:center;
+     }
+
+     .album{
+         background:khaki;
+         width:200px;
+         height:200px;
+         float:left;
+         margin:1em;
+         border-radius: 15px;
+         border-style: solid;
+         border-width: 2px;
+     }
+
+    .thumbnail-text {
+         display: inline-block;
+     }
+
+     .thumbnail-picture {
+         width:188px;
+         height:140px;
+         border-radius: 15px;
+         border-style: solid;
+         border-width: 2px;
+     }
+
+     .thumbnail-picture-div {
+         margin:4px;
+         margin-top:4px;
+     }
+
+     .thumbnail-text-div {
+         margin:8px;
+         margin-top:4px;
+         text-align:center;
+     }
+
+</style>
+
+<div class="albums-display-container">
+
+    @foreach(var album in Model){
+
+        <div class="album">
+            <div class="thumbnail-picture-div">
+
+                @if (album.NoOfItems > 0)
+                {
+                    <a href="@Url.ActionLink("DisplayFullAlbum", "Home", new { albumId = album.Id })" title="Edit">
+                        <img class="thumbnail-picture" src="./images/AlbumIsNotEmpty.png" ) />
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.ActionLink("DisplayFullAlbum", "Home", new { albumId = album.Id })" title="Edit">
+                        <img class="thumbnail-picture" src="./images/AlbumIsEmpty.png" />
+                    </a>
+                }
+            </div>
+            <div class="thumbnail-text-div">
+                <label class="thumbnail-text">@album.Title</label>
+            </div>
+        </div>
+
+    }
+
+</div>

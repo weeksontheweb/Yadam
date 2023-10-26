@@ -1,0 +1,68 @@
+﻿@model Yadam.ViewModels.AlbumViewModel
+
+@{
+    ViewData["Title"] = "Display Full Album";
+}
+
+<style>
+    .album-display-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .album {
+        background: khaki;
+        width: 200px;
+        height: 200px;
+        float: left;
+        margin: 1em;
+        border-radius: 15px;
+        border-style: solid;
+        border-width: 2px;
+    }
+
+    .full-album-menu-bar {
+        background-color: cornflowerblue;
+        border-radius:  15px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .full-album-menu-bar-contents {
+        font-size: medium;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        
+    }
+</style>
+
+<div class="full-album-menu-bar">
+    <div class="full-album-menu-bar-contents">
+        Album: @Model.AlbumTitle<br/>
+        Description: @Model.AlbumSummary<br/>
+        Album Id: @Model.AlbumId<br/>
+    </div>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddItemPrompt" asp-route-id=@Model.AlbumId>Add Item</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+
+<div style="display: flex;">
+    @foreach (var item in Model.Items)
+    {
+       <div class="album">
+            <img class="thumbnail-picture" src="@Url.Action("GetSambaImage", "Home", new { imagePath = Model.AlbumRootPath + item.AlbumId + "\\" + item.Filename })" style="width: 192px;height: 192px; padding-left: 5px; padding-top: 5px; border-radius: 25px"/>
+        </div>
+    }
+</div>
