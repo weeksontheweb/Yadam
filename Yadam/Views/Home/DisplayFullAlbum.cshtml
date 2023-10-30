@@ -39,6 +39,14 @@
     }
 </style>
 
+<form method="post" id="dataForm" asp-controller="Home" asp-action="AddItem">
+    <input type="hidden" id="titleStore" name="titleStore" value="">
+    <input type="hidden" id="descriptionStore" name="descriptionStore" value="">
+    <input type="hidden" id="filePathStore" name="filePathStore" value="">
+    <input type="hidden" id="albumId" name="albumId" value=@Model.AlbumId>
+    <button type="submit" style="display: none;"></button>
+</form>
+
 <div class="full-album-menu-bar">
     <div class="full-album-menu-bar-contents">
         Album: @Model.AlbumTitle<br/>
@@ -52,7 +60,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddItemPrompt" asp-route-id=@Model.AlbumId>Add Item</a>
                         </li>
-                    </ul>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddItemPrompt" asp-route-id=@Model.AlbumId>Add Item</a>
+                        </li>
+                        <li class="nav-item">
+                         <a class="nav-link text-dark" asp-area=""  data-bs-toggle="modal" data-bs-target="#addItemModal">Add Item With Modal</a>
+                        </li>
+                     </ul>
                 </div>
             </div>
         </nav>
@@ -66,3 +80,63 @@
         </div>
     }
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Album Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="row">
+                        <div class="label">Item Title:</div>
+                        <div><input type="text" class="form-control" id="itemTitleEntry"  /></div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Description:</div>
+                        <div><input type="text" class="form-control" id="itemDescriptionEntry"  /></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="label">Choose a file:</label>
+                    <input type="file" name="filePathEntry" class="form-control-file" id="filePathEntry"  onchange="displayFilePath()" />
+                </div>
+                <div class="form-group">
+                    <label for="filePath">Selected File Path:</label>
+                    <input type="text" id="filePath" name="filePath" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="addItem()">Add Item</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function addItem() {
+        var title = $('#itemTitleEntry').val()
+        var description = $('#itemDescriptionEntry').val()
+        var filePath = $('#filePathEntry').val()
+          
+        alert('title = ' + title);
+        alert('description = ' + description);
+        alert('filePath = ' + filePath);
+        
+        
+        if ($('#itemTitleEntry').val() == "" || $('#itemDescriptionEntry').val() == ""){
+        } else {
+            $('#addItemModal').modal('hide');
+            $('#titleStore').val($('#itemTitleEntry').val());
+            $('#descriptionStore').val($('#itemDescriptionEntry').val());
+            $('#filePathStore').val($('#filePathEntry').val());
+            document.getElementById("dataForm").submit();
+        }
+    }
+</script>

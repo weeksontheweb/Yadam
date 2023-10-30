@@ -104,7 +104,8 @@ public class HomeController : Controller
         return View();
     }
 
-    public async Task<IActionResult> AddItem(Guid albumId, int displayOrder, string title, string description, string filePath)
+    [HttpPost]
+    public async Task<IActionResult> AddItem(Guid albumId, int displayOrder, string titleStore, string descriptionStore, string filePathStore)
     {
         //Allow input of item via browse, title and description.
         //Need to call stored procedure.
@@ -118,8 +119,8 @@ public class HomeController : Controller
 
         //if (File.Exists(filePath))
        // {
-            var fileStream = new FileStream(filePath, FileMode.Open);
-            var fileName = Path.GetFileName(filePath);
+            var fileStream = new FileStream(filePathStore, FileMode.Open);
+            var fileName = Path.GetFileName(filePathStore);
             var formFile = new FormFile(fileStream, 0, fileStream.Length, null, fileName)
             {
                 Headers = new HeaderDictionary(),
@@ -153,7 +154,7 @@ public class HomeController : Controller
 
         await fileStream.CopyToAsync(stream1);
 
-        var albumItemCombinedModel = albumService.CreateAlbumItem(albumId, displayOrder, fileName, title,description,dataStore);
+        var albumItemCombinedModel = albumService.CreateAlbumItem(albumId, displayOrder, fileName, titleStore,descriptionStore,dataStore);
 
         return RedirectToAction("Index");
     }
