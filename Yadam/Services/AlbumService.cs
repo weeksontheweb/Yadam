@@ -8,7 +8,6 @@ namespace Yadam.Services
     {
         public List<AlbumModel> ReadAlbums(IDataStore dataStore)
         {
-            //return albums;
             return dataStore.ReadAlbums();
         }
 
@@ -16,30 +15,24 @@ namespace Yadam.Services
         {
             //return albums;
             return dataStore.ReadAlbumDetails(albumId);
-
-
         }
 
-        public Guid CreateAlbum(AlbumSummaryViewModel newAlbumSummary, IDataStore dataStore)
+        public Guid CreateAlbum(string title, string description, IDataStore dataStore)
         {
             string rootPath = @"c:\\photo_album_app_images\\";
 
-            //Guid newAlbumId = "";
+           var newAlbumId = dataStore.CreateAlbum(title, description);
 
-            var newAlbumId = dataStore.CreateAlbum(newAlbumSummary);
+           if (newAlbumId != System.Guid.Empty) {
 
-            if (newAlbumId != System.Guid.Empty)
-            {
-                //newAlbum.Path = rootPath + newAlbumGuid;
-                newAlbumSummary.Path = rootPath + newAlbumId;
+                var albumRootPath = System.Environment.GetEnvironmentVariable("AlbumRootPath");
 
-                //Don't need to check that the directory exists as 
-                //Directory.CreateDirectory() will not do anything if the 
-                //directory already exists.
-                Directory.CreateDirectory(newAlbumSummary.Path);
-            }
+                var albumPath = albumRootPath + newAlbumId;
 
-            return newAlbumId;
+                Directory.CreateDirectory(albumPath);
+          }
+
+          return newAlbumId;
         }
 
         public int CreateAlbumItem(Guid albumId, int displayOrder, string fileName, string title, string description,

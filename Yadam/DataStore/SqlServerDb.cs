@@ -38,12 +38,14 @@ public class SqlServerDb : IDataStore
         return albumDetails;
     }
 
-    public Guid CreateAlbum(AlbumSummaryViewModel newAlbumSummary)
+    public Guid CreateAlbum(string title, string summary)
     {
+        Guid parentAlbumId = Guid.Empty;
+        
         var sqlString = "Exec CreateAlbum '";
-        sqlString = sqlString + newAlbumSummary.Title + "','";
-        sqlString = sqlString + newAlbumSummary.Summary +  "','";
-        sqlString = sqlString + newAlbumSummary.ParentAlbumId +  "'";
+        sqlString = sqlString + title + "','";
+        sqlString = sqlString + summary +  "','";
+        sqlString = sqlString + parentAlbumId +  "'";
         
         connection.Open();
         var albumId = connection.QueryFirstOrDefault<Guid>(sqlString);

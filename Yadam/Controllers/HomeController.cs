@@ -34,18 +34,15 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult CreateAlbum(AlbumSummaryViewModel newAlbumSummary)
+    public IActionResult CreateAlbum(string titleStore, string descriptionStore)
     {
-        //newAlbum.Path = "Sort this";
-        newAlbumSummary.Path = "Sort this";
-        
-        //Need to add path here.
         //ID and DateTimeCreated are done in the database.
         AlbumService albumService = new AlbumService();
+        
         //PostgresDb dataStore = new PostgresDb();
         SqlServerDb dataStore = new SqlServerDb();
-
-        var newAlbumGuid = albumService.CreateAlbum(newAlbumSummary,dataStore);
+        
+        var newAlbumGuid = albumService.CreateAlbum(titleStore, descriptionStore,dataStore);
 
         //If the GUID is null then return an error description.
         return (RedirectToAction("Index"));

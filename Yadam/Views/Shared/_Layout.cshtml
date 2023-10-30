@@ -9,37 +9,87 @@
     <link rel="stylesheet" href="~/PhotoAlbum.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="CreateAlbumPrompt">Create Album</a>
-                        </li>
-                    </ul>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area=""  data-bs-toggle="modal" data-bs-target="#exampleModal">Create Album</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<form method="post" id="dataForm" asp-controller="Home" asp-action="CreateAlbum">
+    <input type="hidden" id="titleStore" name="titleStore" value="">
+    <input type="hidden" id="descriptionStore" name="descriptionStore" value="">
+    <button type="submit" style="display: none;"></button>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Album</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="row">
+                        <div class="label">Album Title:</div>
+                        <div><input type="text" class="form-control" id="albumTitleEntry"  /></div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Description:</div>
+                        <div><input type="text" class="form-control" id="albumDescriptionEntry"  /></div>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Weeksy's PhotoAlbum - Licensed under terms stipulated in the 'Off' licence 
-            (Oi! Get outta ma pub).
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="createAlbum()">Create Album</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    </div>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2022 - Weeksy's PhotoAlbum - Licensed under terms stipulated in the 'Off' licence 
+        (Oi! Get outta ma pub).
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
+
+<script>
+
+    function createAlbum() {
+        var title = $('#albumTitleEntry').val()
+        var description = $('#albumDescriptionEntry').val()
+        
+        if ($('#albumTitleEntry').val() == "" || $('#albumDescriptionEntry').val() == ""){
+        } else {
+           $('#exampleModal').modal('hide');
+            $('#titleStore').val($('#albumTitleEntry').val());
+            $('#descriptionStore').val($('#albumDescriptionEntry').val());
+            document.getElementById("dataForm").submit();
+        }
+    }
+</script>
 </html>

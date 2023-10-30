@@ -52,30 +52,11 @@ public class PostgresDb : IDataStore
         return albumItems;
     }
 
-    public Guid CreateAlbum(AlbumSummaryViewModel newAlbumSummary)
+    public Guid CreateAlbum(string title, string description)
     {
-        connection.Open();
-    
-        var parameters = new
-        {
-            fname = newAlbumSummary.Title,
-            fdescription = newAlbumSummary.Summary,
-            fpath = newAlbumSummary.Path
-        };
-
-        var newAlbumId = connection.QueryFirstOrDefault<Guid>(
-            "SELECT create_album(@fname, @fdescription, @fpath)",
-            parameters
-        );
-/*
-         Guid newGuid = connection.QueryFirstOrDefault<Guid>(
-             "SELECT create_album(@fname, @fdescription, @fpath)",
-             parameters
-         );
-*/
-        return newAlbumId;
+        return System.Guid.Empty;
     }
-
+    
     public int CreateAlbumItem(Guid albumId, int displayOrder, string fileName, string title, string description)
     {
         return 1;
