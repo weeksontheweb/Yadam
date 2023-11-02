@@ -28,11 +28,6 @@ public class HomeController : Controller
         return View(albumService.ReadAlbums(dataStore));
     }
 
-    public IActionResult CreateAlbumPrompt()
-    {
-        return View();
-    }
-
     [HttpPost]
     public IActionResult CreateAlbum(string titleStore, string descriptionStore)
     {
@@ -95,13 +90,6 @@ public class HomeController : Controller
         }
 
         return View(albumViewModel);
-    }
-
-    public IActionResult AddItemPrompt(Guid id)
-    {
-        //Allow input of item via browse, title and description.
-        ViewBag.AlbumID = id;
-        return View();
     }
 
     [HttpPost]
